@@ -2,8 +2,10 @@ class Api::V1::SnacksController < ApplicationController
   before_action :set_snack, only: [:show, :update, :destroy]
 
   def index 
-    snacks = Snack.all 
-    render json: snacks, except: [:created_at, :updated_at]
+    snacks = Snack.all.chrono_order
+    # render json: snacks, except: [:created_at, :updated_at]
+    render json: snacks.to_json(:include => { :reviews => {:except => [:created_at, :updated_at, :snack_id]}}, :except => [:created_at, :updated_at])
+
   end 
 
   def show 

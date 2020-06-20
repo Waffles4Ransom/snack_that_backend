@@ -2,7 +2,9 @@ class Api::V1::UsersController < ApplicationController
 
   def index
     users = User.all
-    render json: users, except: [:created_at, :updated_at, :password_digest]
+    # render json: users, except: [:updated_at, :password_digest]
+    render json: users.to_json(:include => { :reviews => {:except => [:created_at, :updated_at, :user_id]}}, :except => [:password_digest, :updated_at])
+
   end 
 
   def show
