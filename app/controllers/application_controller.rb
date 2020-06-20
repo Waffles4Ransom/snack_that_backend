@@ -4,7 +4,7 @@ class ApplicationController < ActionController::API
 
   def current_user 
     if logged_in?
-      User.find_by(id: session[:user_id])
+      User.find(session[:user_id])
     else
       nil
     end 
