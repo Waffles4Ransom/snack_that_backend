@@ -1,6 +1,12 @@
-class API::V1::SessionsController < ApplicationController
+class Api::V1::SessionsController < ApplicationController
 
   def create 
     # binding.pry
-  end 
+    @user = User.find_by(username: params[:username])
+    if @user && @user.authenticate(params[:password])
+      session[:user_id] = @user.id
+      render json: @user
+    else
+      render json: {error: "Invalid Attempt"}
+    end
 end
