@@ -1,13 +1,13 @@
 class Api::V1::SessionsController < ApplicationController
 
   def create 
-    binding.pry
+    # binding.pry
     @user = User.find_by(username: params[:username])
     if @user && @user.authenticate(params[:password])
       session[:user_id] = @user.id
-      render json: @user
+      render json: @user, except: [:password_digest, :updated_at]
     else
-      render json: {error: "Invalid Attempt"}
+      render json: {error: "Invalid attempt, please try again."}
     end
   end 
 

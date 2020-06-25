@@ -7,7 +7,10 @@ class Api::V1::ReviewsController < ApplicationController
   end
 
   def show 
-    render json: @review.to_json(:include => { :snack => {:except => [:created_at, :updated_at, :snack_id]}}, :except => [:created_at, :updated_at])
+    render json: @review.to_json(:include => { 
+      :user => {:only => [:username]},
+      :snack => {:except => [:created_at, :updated_at, :snack_id]}
+      }, :except => [:created_at, :updated_at])
   end 
 
   def create 
