@@ -20,13 +20,13 @@ class Api::V1::SnacksController < ApplicationController
   end 
   
   def create
-    binding.pry
     @snack = Snack.new(snack_params)
-    @snack.status = 'undecided'
+    @snack.status = 'undecided' if @snack 
     if @snack.save 
-      render json: @snack
+      render json: @snack.to_json(:include => { :reviews => {:except => [:created_at, :updated_at, :snack_id]}, :users => { :only => [:username]}}, :except => [:created_at, :updated_at])
     else
-      render json: {error: 'Snack not saved!'}
+      # render json: {error: 'Snack not saved!'}, status: 400
+      render json: {error: @snack.errors.full_messages}, status: 400
     end
   end 
 
@@ -41,7 +41,7 @@ class Api::V1::SnacksController < ApplicationController
   private 
   
   def snack_params
-    params.require(:snack).permit(:name, :description, :origin, :image, :categories)
+    params.require(:snack).permit(:name, :description, :origin, :image, :categories => [])
   end 
   
   def set_snack 
