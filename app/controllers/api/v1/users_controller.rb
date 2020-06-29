@@ -14,22 +14,25 @@ class Api::V1::UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    if @user.profile_photo == ''
+      @user.profile_photo = 'https://i.imgur.com/Zuj9qA7.png'
+    end
     if @user.save 
-      # log_in(@user)
-      render json: @user, only: [:username, :name, :location, :profile_photo]
+      session[:user_id] = @user.id
+      render json: @user, only: [:id, :username, :name, :location, :profile_photo, :created_at]
     else
-      render json: { errors: user.errors.full_messages }
+      render json: { errors: @user.errors.full_messages.to_sentence }
     end
   end 
 
   def update
-
+   
   end 
 
   private 
 
   def user_params 
-    params.require(:user).permit(:username, :password_digest, :name, :location, :profile_photo)
+    params.require(:user).permit(:username, :password, :name, :location, :profile_photo)
   end 
 
 end
