@@ -27,7 +27,7 @@ class Api::V1::ReviewsController < ApplicationController
 
   end 
 
-  def destroy 
+  def destroy
     @review.destroy
   end 
 
