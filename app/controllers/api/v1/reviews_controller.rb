@@ -1,5 +1,6 @@
 class Api::V1::ReviewsController < ApplicationController
   before_action :set_review, only: [:show, :update, :destroy]
+  before_action :set_snack, only: [:create]
 
   def index
     @reviews = Review.all
@@ -14,11 +15,11 @@ class Api::V1::ReviewsController < ApplicationController
   end 
 
   def create 
-    review = Review.new(review_params)
+    review = @snack.reviews.build(review_params)
     if review.save 
-      render json: review 
+      render json: {message: "Success!"} 
     else
-      render json: {errors: review.errors.full_messages }
+      render json: {errors: review.errors.full_messages.to_sentence }
     end 
   end 
 
@@ -33,8 +34,12 @@ class Api::V1::ReviewsController < ApplicationController
   private 
 
   def review_params 
-
+    params.require(:review).permit(:content, :rating, :user_id)
   end
+
+  def set_snack
+    @snack = Snack.find(params[:snack_id])
+  end 
 
   def set_review 
     @review = Review.find_by(id: params[:id])
