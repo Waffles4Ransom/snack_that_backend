@@ -1,17 +1,14 @@
 class Api::V1::ReviewsController < ApplicationController
   before_action :set_review, only: [:show, :update, :destroy]
-  before_action :set_snack, only: [:create]
+  before_action :set_snack, only: [:index, :create]
 
   def index
-    @reviews = Review.all
+    @reviews = @snack.reviews.all
     render json: @reviews
   end
 
   def show 
-    render json: @review.to_json(:include => { 
-      :user => {:only => [:username]},
-      :snack => {:except => [:created_at, :updated_at, :snack_id]}
-      }, :except => [:created_at, :updated_at])
+    render json: @review
   end 
 
   def create 

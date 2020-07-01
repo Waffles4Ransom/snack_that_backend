@@ -1,15 +1,13 @@
 class Api::V1::UsersController < ApplicationController
 
   def index
-    users = User.all
-    # render json: users, except: [:updated_at, :password_digest]
-    render json: users.to_json(:include => { :reviews => {:except => [:created_at, :updated_at, :user_id]}}, :except => [:password_digest, :updated_at])
-
+    @users = User.all
+    render json: @users
   end 
 
   def show
-    user = User.find_by(id: params[:id])
-    render json: user, only: [:name, :username, :location, :profile_photo], include: :snacks
+    @user = User.find_by(id: params[:id])
+    render json: @user
   end 
 
   def create
@@ -19,14 +17,14 @@ class Api::V1::UsersController < ApplicationController
     end
     if @user.save 
       session[:user_id] = @user.id
-      render json: @user, only: [:id, :username, :name, :location, :profile_photo, :created_at]
+      render json: @user
     else
       render json: { errors: @user.errors.full_messages.to_sentence }
     end
   end 
 
   def update
-    
+
   end 
 
   private 
