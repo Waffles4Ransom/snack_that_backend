@@ -5,26 +5,15 @@ class Api::V1::UsersController < ApplicationController
     render json: @users
   end 
 
-  def show
-    @user = User.find_by(id: params[:id])
-    render json: @user
-  end 
-
   def create
     @user = User.new(user_params)
-    if @user.profile_photo == ''
-      @user.profile_photo = 'https://i.imgur.com/Zuj9qA7.png'
-    end
+    @user.profile_photo = 'https://i.imgur.com/I2c2B2s.png' if @user.profile_photo == ''
     if @user.save 
       session[:user_id] = @user.id
       render json: @user
     else
       render json: { errors: @user.errors.full_messages.to_sentence }
     end
-  end 
-
-  def update
-
   end 
 
   private 

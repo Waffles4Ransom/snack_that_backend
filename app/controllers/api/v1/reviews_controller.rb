@@ -7,21 +7,13 @@ class Api::V1::ReviewsController < ApplicationController
     render json: @reviews
   end
 
-  def show 
-    render json: @review
-  end 
-
   def create 
     review = @snack.reviews.build(review_params)
     if review.save 
       render json: {message: "Success!"} 
     else
-      render json: {errors: review.errors.full_messages.to_sentence }
+      render json: {error: review.errors.full_messages.to_sentence }, status: 400
     end 
-  end 
-
-  def update
-
   end 
 
   def destroy

@@ -2,12 +2,8 @@ class Api::V1::SnacksController < ApplicationController
   before_action :set_snack, only: [:show, :update, :destroy]
 
   def index 
-    snacks = Snack.all.chrono_order
+    snacks = Snack.most_recent
     render json: snacks
-  end 
-
-  def show
-    render json: @snack
   end 
   
   def create
@@ -18,10 +14,6 @@ class Api::V1::SnacksController < ApplicationController
     else
       render json: {error: @snack.errors.full_messages.to_sentence}, status: 400
     end
-  end 
-
-  def update
-
   end 
   
   def destroy 
