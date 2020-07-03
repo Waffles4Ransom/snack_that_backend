@@ -5,6 +5,6 @@ class Snack < ApplicationRecord
   validates :name, :description, :origin, :categories, presence: true
   validates :image, format: { with: /\.(png|jpg)\Z/i, message: "URL is invalid, please try again" } 
   
-  scope :chrono_order, ->{order(:id)}
+  scope :most_recent, ->{order(created_at: :desc)}
 
 end

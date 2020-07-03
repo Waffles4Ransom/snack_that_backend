@@ -5,6 +5,7 @@ class User < ApplicationRecord
 
   validates :name, presence: true
   validates :username, uniqueness: true, presence: true
+  validates :password, length: {minimum: 6}
   validates :profile_photo, format: { with: /\.(png|jpg)\Z/i, message: "URL is invalid, please try again" } 
 
 end
