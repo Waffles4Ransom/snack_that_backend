@@ -2,6 +2,8 @@
 
 Snack That is a web application for serious snack lovers to log and review snack foods from around the world.
 
+<img src="public/images/screenshot.png" alt="Homepage screenshot" width=500>
+
 This repo is the Rails API, which serves the React/Redux frontend found at <a href='https://github.com/Waffles4Ransom/snack_that_frontend'>Snack That Frontend</a>.
 
 ## Installation
